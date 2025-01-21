@@ -1,0 +1,14 @@
+input:invalid,
+input:focus:invalid {
+  border: 2px red dotted;
+}
+
+input {
+  border: 2px black solid;
+}
+
+/* error message styles */
+.error {
+  width: 100%;
+  font-size: 80%;
+}

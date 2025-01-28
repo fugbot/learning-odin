@@ -182,4 +182,53 @@ export class Tree {
     traverse(this.root);
     return result;
   }
+
+  // Height is defined as the number of edges in the longest path from a given node to a leaf node.
+  height(node) {
+    if (node === null) {
+      return -1;
+    }
+    // height of current node is 1 plus max height of its left and right subtrees; using math.max means i take longest path to leaf node
+    return 1 + Math.max(this.height(node.left), this.height(node.right));
+  }
+
+  //defined as the number of edges in the path from a given node to the tree’s root node
+  depth(node) {
+    let steps = 0;
+    const countSteps = (root, node) => {
+      if (root === null) return null;
+      if (root.data === node.data) {
+        return steps;
+      }
+      if (node.data < root.data) {
+        steps++;
+        return countSteps(root.left, node);
+      }
+      if (node.data > root.data) {
+        steps++;
+        return countSteps(root.right, node);
+      }
+    };
+    return countSteps(this.root, node);
+  }
+  //difference between heights of left and right subtree of every node is not more than 1
+  isBalanced() {
+    const checkBalance = (node) => {
+      if (node === null) return true;
+
+      let leftHeight = this.height(node.left);
+      let rightHeight = this.height(node.right);
+      if (Math.abs(leftHeight - rightHeight) > 1) {
+        return false;
+      }
+      return checkBalance(node.left) && checkBalance(node.right);
+    };
+    return checkBalance(this.root);
+  }
+
+  //convert into array and build again
+  reBalance() {
+    const newArr = this.inOrder();
+    this.root = this.buildTree(newArr, 0, newArr.length - 1);
+  }
 }

@@ -24,3 +24,11 @@ testTree.recursiveLevelOrder((data) => console.log(data));
 console.log("inorder: " + testTree.inOrder());
 console.log("preorder: " + testTree.preOrder());
 console.log("postorder: " + testTree.postOrder());
+
+console.log("height: " + testTree.height(testTree.root));
+console.log("depth: " + testTree.depth(testTree.find(testTree.root, 300)));
+
+console.log("is Balanced?: " + testTree.isBalanced());
+testTree.reBalance();
+testTree.prettyPrint(testTree.root);
+console.log("is Balanced?: " + testTree.isBalanced());

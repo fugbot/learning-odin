@@ -64,5 +64,58 @@ export class Tree {
     return root;
   }
 
-  //deleteItem(value) {}
+  deleteItem(value) {
+    const getSuccessor = (current) => {
+      current = current.right;
+      while (current !== null && current.left !== null) {
+        current = current.left;
+      }
+      return current;
+    };
+
+    const delNode = (root, value) => {
+      //base case
+      if (root === null) {
+        return root;
+      }
+
+      //if key to be searched is in a subtree
+      if (root.data > value) {
+        root.left = delNode(root.left, value);
+      } else if (root.data < value) {
+        root.right = delNode(root.right, value);
+      } else {
+        //if root matches with given key
+
+        //root has no children or only right child
+        if (root.left === null) {
+          return root.right;
+        }
+
+        //root only has left child
+        if (root.right === null) {
+          return root.left;
+        }
+
+        //both children present
+        let successor = getSuccessor(root);
+        root.data = successor.data;
+        root.right = delNode(root.right, successor.key);
+      }
+      return root;
+    };
+    this.root = delNode(this.root, value);
+  }
+
+  find(root, value) {
+    if (root === null || root.data === value) {
+      return root;
+    }
+    //value is greater than root's value
+    if (root.data < value) {
+      return this.find(root.right, value);
+    }
+    //value smaller than root's value
+    return this.find(root.left, value);
+  }
 }

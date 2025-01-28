@@ -65,12 +65,12 @@ export class Tree {
   }
 
   deleteItem(value) {
-    const getSuccessor = (current) => {
-      current = current.right;
-      while (current !== null && current.left !== null) {
+    const getSuccessor = (node) => {
+      let current = node;
+      while (current.left !== null) {
         current = current.left;
       }
-      return current;
+      return current.data;
     };
 
     const delNode = (root, value) => {
@@ -98,9 +98,8 @@ export class Tree {
         }
 
         //both children present
-        let successor = getSuccessor(root);
-        root.data = successor.data;
-        root.right = delNode(root.right, successor.key);
+        root.data = getSuccessor(root.right);
+        root.right = delNode(root.right, root.data);
       }
       return root;
     };
@@ -117,5 +116,70 @@ export class Tree {
     }
     //value smaller than root's value
     return this.find(root.left, value);
+  }
+
+  recursiveLevelOrder(callback) {
+    //visit all nodes in level before traversing to next level
+    //discovered node
+    //queue FIFO - store address of discovered node in queue
+    //print node > enqueue its child nodes
+    //continue down queue
+    if (typeof callback !== "function") {
+      throw new Error("Callback function is required.");
+    }
+
+    //let queue = [];
+    let result = [];
+    const traverse = (node) => {
+      let nextNode = [];
+      for (let i of node) {
+        result.push(i.data);
+        if (i.left) {
+          nextNode.push(i.left);
+        }
+        if (i.right) {
+          nextNode.push(i.right);
+        }
+        traverse(nextNode);
+      }
+    };
+    traverse([this.root]);
+    callback(result);
+  }
+
+  inOrder() {
+    const result = [];
+    const traverse = (node) => {
+      if (node !== null) {
+        traverse(node.left);
+        result.push(node.data);
+        traverse(node.right);
+      }
+    };
+    traverse(this.root);
+    return result;
+  }
+
+  preOrder() {
+    const result = [];
+    const traverse = (node) => {
+      if (node === null) return;
+      result.push(node.data);
+      traverse(node.left);
+      traverse(node.right);
+    };
+    traverse(this.root);
+    return result;
+  }
+  postOrder() {
+    const result = [];
+    const traverse = (node) => {
+      if (node === null) return;
+      traverse(node.left);
+      traverse(node.right);
+      result.push(node.data);
+    };
+    traverse(this.root);
+    return result;
   }
 }

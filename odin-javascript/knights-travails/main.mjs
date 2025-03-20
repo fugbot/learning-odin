@@ -1,3 +1,5 @@
+import { Graph } from "./Graph.mjs";
+
 function knightMoves(start, target) {
   const dummyStart = [1, 1];
   //const dummyTarget = [7, 5];
@@ -57,6 +59,23 @@ function knightMoves(start, target) {
   // );
   newPossibleMoves = newPossibleMoves.filter(isOnBoard);
   console.log("new moves filtered", newPossibleMoves);
+
+  //create adjacency list
+  const numVertices = 1 + possibleMoves.length;
+  console.log("vertices number:", numVertices);
+  const graph1 = new Graph(numVertices);
+  let vertices = possibleMoves;
+  //add vertices
+  for (let i = 0; i < vertices.length; i++) {
+    graph1.addVertex(vertices[i]);
+  }
+  //add start as vertex
+  graph1.addVertex(dummyStart);
+  //add edges
+  for (let i = 0; i < vertices.length; i++) {
+    graph1.addEdge(dummyStart, vertices[i]);
+  }
+  graph1.printGraph();
 }
 
 function isOnBoard([a, b]) {
@@ -64,3 +83,16 @@ function isOnBoard([a, b]) {
 }
 
 knightMoves([3, 3], [7, 7]);
+
+//create adjacency list
+/* knightMovesBFS(adjList, source){
+  const result = [];
+  const queue = [root];
+
+  while (queue.length > 0){
+    const levelSize = queue.length;
+    //create empty currentLevel array to store nodes at currentLevel
+    const currentLevel = [];
+  }
+  return result;
+} */

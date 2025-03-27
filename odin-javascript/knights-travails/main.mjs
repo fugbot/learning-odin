@@ -1,98 +1,65 @@
-import { Graph } from "./Graph.mjs";
+import { Cell } from "./Cell.mjs";
 
-function knightMoves(start, target) {
-  const dummyStart = [1, 1];
-  //const dummyTarget = [7, 5];
-  const dummyTarget = [1, 2];
-  const allowedMoves = [
-    [1, 2],
-    [2, 1],
-    [-1, -2],
-    [-2, -1],
-    [1, -2],
-    [-1, 2],
-    [-2, 1],
-    [2, -1],
-  ];
-  //     1. build array with arrays with all legal moves
-  let possibleMoves = [];
-  let queue = [];
+const legalMoves = [
+  [1, 2],
+  [2, 1],
+  [-1, -2],
+  [-2, -1],
+  [1, -2],
+  [-1, 2],
+  [-2, 1],
+  [2, -1],
+];
 
-  possibleMoves = allowedMoves
-    .map(([a, b]) => [a + dummyStart[0], b + dummyStart[1]])
-    .filter(([a, b]) => a >= 0 && b >= 0 && a <= 7 && b <= 7);
-  console.log("possible moves", possibleMoves);
+function knightMoves(startPt, endPt) {
+  if (startPt === endPt) {
+    return "Start point is same as end point";
+  }
+  const start = new Cell(startPt);
+  console.log(start);
+  // enqueue start point
+  let queue = [start];
+  console.log("queue", queue);
 
-  // 2. check if target position is reached in one of moves
-  /* for (const move in possibleMoves) { //should only be used to enumerate over object properties
-    console.log(move);
-    if (move == dummyTarget) {
-      console.log("we have a match", move);
-    }
-  } */
+  let cellArray = [];
 
-  /* possibleMoves.forEach((move) => {
-    console.log(move);
-    if (move.join() === dummyTarget.join()) {
-      console.log("we have a match", move);
-      return; //how to break out??
-    }
-  }); */
-  //https://www.geeksforgeeks.org/how-to-compare-two-arrays-in-javascript/
-  for (const move of possibleMoves) {
-    if (move.join() === dummyTarget.join()) {
-      console.log("we have a match", move);
-      return; //how to break out of loop??
+  while (queue.length) {
+    //for loop??
+    //dequeue first in queue
+    let current = queue.shift();
+    let predecessor = current;
+    console.log("current", current);
+    console.log("predecessor", predecessor);
+
+    let validMoves = [];
+    validMoves = legalMoves
+      .map(([a, b]) => [a + current.coordinates[0], b + current.coordinates[1]])
+      .filter(([a, b]) => a >= 0 && b >= 0 && a <= 7 && b <= 7);
+    console.log("valid moves", validMoves);
+
+    for (const move of validMoves) {
+      if (!current.hasVisited(move)) {
+        const currentCell = new Cell(move, current.distance + 1, predecessor);
+        queue.push(currentCell);
+
+        //check if current is target
+        if (move[0] === endPt[0] && move[1] === endPt[1]) {
+          const shortestPath = [];
+          console.log("Target reached after", currentCell.distance, "steps");
+
+          //loop through predecessors
+          let pathCell = currentCell;
+          while (pathCell !== null) {
+            shortestPath.push(pathCell.coordinates);
+            pathCell = pathCell.predecessor;
+          }
+          console.log("path was ", shortestPath.reverse());
+          return;
+        }
+      }
     }
   }
-
-  // 3. if not, build another array with all legal moves
-  let newPossibleMoves = [];
-  possibleMoves.forEach(([a, b]) => {
-    allowedMoves.forEach(([x, y]) => {
-      newPossibleMoves.push([a + x, b + y]);
-    });
-  });
-  console.log("new moves", newPossibleMoves);
-  // newPossibleMoves = newPossibleMoves.filter(
-  //   ([a, b]) => a >= 0 && b >= 0 && a <= 7 && b <= 7
-  // );
-  newPossibleMoves = newPossibleMoves.filter(isOnBoard);
-  console.log("new moves filtered", newPossibleMoves);
-
-  //create adjacency list
-  const numVertices = 1 + possibleMoves.length;
-  console.log("vertices number:", numVertices);
-  const graph1 = new Graph(numVertices);
-  let vertices = possibleMoves;
-  //add vertices
-  for (let i = 0; i < vertices.length; i++) {
-    graph1.addVertex(vertices[i]);
-  }
-  //add start as vertex
-  graph1.addVertex(dummyStart);
-  //add edges
-  for (let i = 0; i < vertices.length; i++) {
-    graph1.addEdge(dummyStart, vertices[i]);
-  }
-  graph1.printGraph();
 }
 
-function isOnBoard([a, b]) {
-  return a >= 0 && b >= 0 && a <= 7 && b <= 7;
-}
-
-knightMoves([3, 3], [7, 7]);
-
-//create adjacency list
-/* knightMovesBFS(adjList, source){
-  const result = [];
-  const queue = [root];
-
-  while (queue.length > 0){
-    const levelSize = queue.length;
-    //create empty currentLevel array to store nodes at currentLevel
-    const currentLevel = [];
-  }
-  return result;
-} */
+//run app
+knightMoves([0, 0], [7, 7]);

@@ -16,26 +16,18 @@ function knightMoves(startPt, endPt) {
     return "Start point is same as end point";
   }
   const start = new Cell(startPt);
-  console.log(start);
   // enqueue start point
   let queue = [start];
-  console.log("queue", queue);
-
-  let cellArray = [];
 
   while (queue.length) {
-    //for loop??
     //dequeue first in queue
     let current = queue.shift();
     let predecessor = current;
-    console.log("current", current);
-    console.log("predecessor", predecessor);
 
     let validMoves = [];
     validMoves = legalMoves
       .map(([a, b]) => [a + current.coordinates[0], b + current.coordinates[1]])
       .filter(([a, b]) => a >= 0 && b >= 0 && a <= 7 && b <= 7);
-    console.log("valid moves", validMoves);
 
     for (const move of validMoves) {
       if (!current.hasVisited(move)) {
@@ -63,3 +55,4 @@ function knightMoves(startPt, endPt) {
 
 //run app
 knightMoves([0, 0], [7, 7]);
+knightMoves([3, 3], [4, 3]);

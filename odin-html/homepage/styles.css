@@ -1,0 +1,163 @@
+*:hover {
+  border: blue solid 2px;
+}
+
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+}
+
+h2,
+.screenshot,
+h3 {
+  font-family: "Playfair Display", serif;
+  font-weight: 300;
+}
+
+.text,
+.project p {
+  color: #5b5a5a;
+}
+
+.icon-container {
+  margin-top: 2em;
+}
+
+/* diagonal box*/
+.diagonal-box {
+  background-image: linear-gradient(
+    176deg,
+    #0892b2 70%,
+    #ffffff calc(70% + 2px)
+  );
+}
+.content {
+  max-width: 50em;
+  margin: 2rem;
+}
+
+/* about me section*/
+
+.about {
+  display: flex;
+  /* grid-template-columns: 1fr 1fr; */
+}
+
+img.icon {
+  height: 20px;
+  width: 20px;
+}
+
+.picture-container {
+  position: relative;
+  text-align: center;
+  color: white;
+  height: 300px;
+}
+
+h2.name {
+  position: absolute;
+  bottom: 2px;
+  left: 30%;
+}
+
+.picture-container img {
+  height: 300px;
+  width: 100%;
+  object-fit: contain;
+}
+
+.about-me {
+  background-color: #ffffff;
+  box-shadow: 3px 3px 5px rgb(0 0 0 / 20%);
+  padding: 1.5em;
+  width: 50%;
+  height: 75%;
+  align-self: center;
+}
+
+.text {
+  font-size: 0.75em;
+}
+
+.about-me .icon-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+/* project section*/
+
+.card-container {
+  display: grid;
+  gap: 10px 30px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 3fr));
+  grid-gap: 1rem;
+  justify-items: center;
+  padding-bottom: 2rem;
+}
+
+.project {
+  max-width: 220px;
+  flex-direction: column;
+  box-shadow: 3px 3px 5px rgb(0 0 0 / 20%);
+}
+
+.screenshot {
+  color: #ffffff;
+  font-size: 1.5rem;
+  text-align: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.description {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.project-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.project-icon-container {
+  display: flex; /* ensures icons are in a row */
+  gap: 8px; /* space between icons */
+}
+
+/* contact section*/
+.contact {
+  background-color: #0892b2;
+  color: #ffffff;
+  display: flex;
+}
+
+.contact-info {
+  padding: 1rem;
+}
+
+.contact-image {
+  align-self: center;
+}
+
+.contact-image img {
+  max-height: 280px;
+  width: 100%;
+  object-fit: contain;
+}
+
+@media (max-width: 550px) {
+  .about {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contact {
+    flex-direction: column;
+  }
+}
